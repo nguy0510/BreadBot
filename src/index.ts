@@ -14,6 +14,7 @@ discBot.on("ready", () => {
 })
 
 discBot.on("message", msg => {
+    
     //ignore the message if it was sent by the bot
     if(msg.author.bot){return;}
 
