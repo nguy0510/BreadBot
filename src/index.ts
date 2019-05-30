@@ -1,12 +1,12 @@
 import * as Discord from "discord.js";
 import * as ConfigFile from "./config";
-import { IBotCommands } from "./api";
+import { IBotCommand } from "./api";
 
 const discBot: Discord.Client = new Discord.Client();
 
-let commands : IBotCommands[] = [];
+let commands : IBotCommand[] = [];
 
-loadCommands(`${__dirname}/commands`)
+loadCommands(`${__dirname}/commands`);
 
 discBot.on("ready", () => {
     //lets us know the bot is online
@@ -20,7 +20,7 @@ discBot.on("message", msg => {
     //ignore messages that don't start with the prefix
     if(!msg.content.startsWith(ConfigFile.config.prefix)){return;}
 
-    msg.channel.send(`${msg.author.username} just used a command!`);
+    commandHandler(msg);
 })
 
 async function commandHandler(msg: Discord.Message){
@@ -30,8 +30,10 @@ async function commandHandler(msg: Discord.Message){
     let args = msg.content.split(" ").slice(1);
 
     for(const commandsClass of commands){
+
         //attempt to execute code 
         try{
+            
             //Iterates through the command array and checks if the command class is the correct one
             if(!commandsClass.isThisCommand(command)){
                 //Go to the next iteration of the loop if this isn't the correct command class
@@ -49,14 +51,14 @@ async function commandHandler(msg: Discord.Message){
 
 function loadCommands(commandsPath: string){
     //Exit if there are no commands
-    if(!ConfigFile.config || (ConfigFile.config.commands as string[]).length ===0){ return; }
+    if(!ConfigFile.config || (ConfigFile.config.commands as string[]).length === 0){ return; }
 
     //Loop through command array 
     for(const commandName of ConfigFile.config.commands as string[]){
 
-        const commnadsClass = require(`${commandsPath}/${commandName}`).default;
+        const commandsClass = require(`${commandsPath}/${commandName}`).default;
 
-        const command = new commnadsClass() as IBotCommands;
+        const command = new commandsClass() as IBotCommand;
 
         commands.push(command);
     }
