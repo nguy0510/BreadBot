@@ -1,9 +1,12 @@
 import * as Discord from "discord.js";
 import {IBotCommand} from "../api";
+import setLog from "./setLog";
 
 export default class kick implements IBotCommand{
 
     private readonly _command = "kick";
+    logSetup :setLog = new setLog();
+   
 
     help(): string {
 
@@ -20,12 +23,25 @@ export default class kick implements IBotCommand{
         let mentionedUser = msgObject.mentions.users.first();
         let kickReason = args.slice(1).join(" ") || "";
         let kickLog = `${msgObject.author.username}:${kickReason}`;
+        /*******************
+        TO BE WORKED ON
         let username = mentionedUser.username;
+        let lChannel = msgObject.guild.channels.find(`name`, this.logSetup._logChannel);
+        */
 
         msgObject.delete(0);
 
-       
+                //if a user without permissions attempts to kick
+        if(!msgObject.member.hasPermission("KICK_MEMBERS") || !msgObject.member.hasPermission("ADMINISTRATOR")){
+            msgObject.channel.send(`Nice try ${msgObject.author.username}, you retard you don't have permission to kick!`);
+            return;
 
+        } else if(msgObject.guild.owner.user === mentionedUser){
+
+            msgObject.channel.send(`Nice try ${msgObject.author.username}, you retard you can't kick the owner!`);
+            return;
+
+        }
         //If user just does ~kick without mentioning a user
         if(args.length < 1){
             msgObject.channel.send(`Sorry ${msgObject.author.username}, you need to mention someone to kick!`);
@@ -37,21 +53,19 @@ export default class kick implements IBotCommand{
             return;
         }
 
-        //if a user without permissions attempts to kick
-        if(!msgObject.member.hasPermission("KICK_MEMBERS") || !msgObject.member.hasPermission("ADMINISTRATOR")){
-            msgObject.channel.send(`Nice try ${msgObject.author.username}, you retard you don't have permission to kick!`);
-            return;
+        /*
+        let kickEmbed = new Discord.RichEmbed()
+        .setDescription("~Kick~")
+        .setColor("#bfd2f2")
+        .addField("Kicked user ", `${mentionedUser} with ID ${mentionedUser.id}`)
+        .addField("Kicked by ", `<@${msgObject.author.id}>`)
+        .addField("Kicked in", msgObject.channel)
+        .addField("Time ", msgObject.createdAt)
+        .addField("Reason ", kickReason);
 
-        } else if(msgObject.guild.owner.user === mentionedUser){
+        msgObject.channel.send(kickEmbed);
 
-            msgObject.channel.send(`Nice try ${msgObject.author.username}, you retard you can't kick the owner!`);
-            return;
-
-        }
-      
-        
-
-      
+        */
 
         msgObject.guild.member(mentionedUser).kick(kickLog)
         .then(console.log)
