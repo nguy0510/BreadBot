@@ -5,7 +5,7 @@
         "module": "commonjs",
         "outDir":"dist",
         "removeComments": true,
-        "strict": true,
+        "strict": false,
         "skipLibCheck":true,
         "strictNullChecks":true,
         "noImplicitThis":true,
