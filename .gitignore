@@ -2,3 +2,5 @@
 /node_modules/*
 src/config.ts
 /dist/*
+src/commands/default.ts
+pics/defaultcloutmonkey.png

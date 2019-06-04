@@ -1,8 +1,8 @@
 import * as Discord from "discord.js";
-import {IBotCommand} from "../api";
+import { IBotCommand } from "../api";
 
 
-export default class kick implements IBotCommand{
+export default class kick implements IBotCommand {
 
     private readonly _command = "kick";
 
@@ -10,12 +10,12 @@ export default class kick implements IBotCommand{
 
         return "Kicks the mentioned user";
 
-    }    isThisCommand(command: string): boolean {
+    } isThisCommand(command: string): boolean {
 
         return command === this._command;
 
     }
-    runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client): void {
+    async runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client):  Promise<void> {
 
 
         let mentionedUser = msgObject.mentions.users.first();
@@ -25,27 +25,39 @@ export default class kick implements IBotCommand{
         msgObject.delete(0);
 
         //if a user without permissions attempts to kick
-        if(!msgObject.member.hasPermission("KICK_MEMBERS") || !msgObject.member.hasPermission("ADMINISTRATOR")){
-            msgObject.channel.send(`Nice try ${msgObject.author.username}, you retard you don't have permission to kick!`);
+        if (!msgObject.member.hasPermission("KICK_MEMBERS") || !msgObject.member.hasPermission("ADMINISTRATOR")) {
+            msgObject.channel.send(`Nice try ${msgObject.author.username}, you dummy you don't have permission to kick!`)
+                .then(msg => {
+                    (msg as Discord.Message).delete(5000);
+                })
             return;
 
-        } else if(msgObject.guild.owner.user === mentionedUser){
+        } else if (msgObject.guild.owner.user === mentionedUser) {
 
-            msgObject.channel.send(`Nice try ${msgObject.author.username}, you retard you can't kick the owner!`);
+            msgObject.channel.send(`Nice try ${msgObject.author.username}, you dummy you can't kick the owner!`)
+                .then(msg => {
+                    (msg as Discord.Message).delete(5000);
+                })
             return;
         }
 
         //If user just does ~kick without mentioning a user
-        if(args.length < 1){
-            msgObject.channel.send(`Sorry ${msgObject.author.username}, you need to mention someone to kick!`);
+        if (args.length < 1) {
+            msgObject.channel.send(`Sorry ${msgObject.author.username}, you need to mention someone to ban!`)
+                .then(msg => {
+                    (msg as Discord.Message).delete(5000);
+                })
             return;
         }
         //if the mentioned user could not be found
-        if(!mentionedUser){
-            msgObject.channel.send(`Sorry ${msgObject.author.username}, I couldn't find that user to kick them!`);
+        if (!mentionedUser) {
+            msgObject.channel.send(`Sorry ${msgObject.author.username}, I couldn't find that user to kick them!`)
+                .then(msg => {
+                    (msg as Discord.Message).delete(5000);
+                })
             return;
         }
-        
+
         /* TO BE IMPLEMENTED:
         *KICK LOG IN CHANNEL
         *KICKING BY USERID
@@ -75,8 +87,8 @@ export default class kick implements IBotCommand{
         */
 
         msgObject.guild.member(mentionedUser).kick(kickLog)
-        .then(console.log)
-        .catch(console.error)
+            .then(console.log)
+            .catch(console.error)
 
     }
 

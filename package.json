@@ -11,7 +11,10 @@
   "dependencies": {
     "@types/node": "^12.0.3",
     "discord.js": "^11.5.1",
-    "ms": "^2.1.1"
+    "ffmpeg-static": "^2.4.0",
+    "ms": "^2.1.1",
+    "opusscript": "0.0.6",
+    "ytdl-core": "^0.29.2"
   },
   "devDependencies": {
     "@types/ms": "^0.7.30"

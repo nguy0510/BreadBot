@@ -1,9 +1,9 @@
 import * as Discord from "discord.js";
 import {IBotCommand} from "../api";
 
-export default class setLog implements IBotCommand{
+export default class setlog implements IBotCommand{
 
-    private readonly _command = "setLog";
+    private readonly _command = "setlog";
     readonly _logChannel: string | undefined;
 
     help(): string {
@@ -15,11 +15,11 @@ export default class setLog implements IBotCommand{
         return command === this._command;
 
     }
-    runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client): void {
+    async runCommand(args: string[], msgObject: Discord.Message, client: Discord.Client):  Promise<void> {
         
 
         if(!msgObject.member.hasPermission("MANAGE_CHANNELS")||!msgObject.member.hasPermission("ADMINISTRATOR")){
-            msgObject.channel.send(`Nice try ${msgObject.author.username}, you retard you don't have permission to set the channel!`);
+            msgObject.channel.send(`Nice try ${msgObject.author.username}, you dummy you don't have permission to set the channel!`);
             return;
         }
         if(args.length < 1){
