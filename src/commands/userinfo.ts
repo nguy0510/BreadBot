@@ -51,7 +51,7 @@ export default class userinfo implements IBotCommand {
             let embed = new Discord.RichEmbed()
                 .setColor(member.highestRole.hexColor)
                 .setFooter("Key permissions: ")
-                .setThumbnail(userInfo.avatarURL)
+                .setImage(userInfo.avatarURL)
                 .setTitle(`**${userInfo.username}#${userInfo.discriminator}**`)
                 .addField('**User ID: **', userInfo.id)
                 .addField("**Join position:**", position)

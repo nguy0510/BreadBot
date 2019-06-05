@@ -4,3 +4,4 @@ src/config.ts
 /dist/*
 src/commands/default.ts
 pics/defaultcloutmonkey.png
+types/weather-js.d.ts

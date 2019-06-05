@@ -25,7 +25,7 @@ export default class serverinfo implements IBotCommand {
             .addField('**Server Name:**', msgObject.guild.name)
             .addField('**Server ID:**', msgObject.guild.id)
             .addField("Member count: ", msgObject.guild.memberCount)
-            .addField("**Channels**", `${msgObject.guild.channels.filter(channel => channel.type === 'voice').size} voice / ${msgObject.guild.channels.filter(channel => channel.type === 'voice').size}} text`)
+            .addField("**Channels**", `${msgObject.guild.channels.filter(channel => channel.type === 'voice').size} voice / ${msgObject.guild.channels.filter(channel => channel.type === 'voice').size} text`)
             .addField("**Server Region**", msgObject.guild.region)
             .addField("**Created at: **", msgObject.guild.createdAt)
             .setTimestamp()
