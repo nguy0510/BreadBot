@@ -25,17 +25,23 @@ export default class userinfo implements IBotCommand {
                 return a.joinedTimestamp - b.joinedTimestamp
             })
             let position = sortedMembers.indexOf(member) + 1;
+            let userPerms:any = new Array();
+            let counter = 0;
+            userPerms = member.roles.map(s => s).join("  ,  ");
+            while(counter < userPerms){
+                counter++;
+            }
 
             let embed = new Discord.RichEmbed()
                 .setColor(member.highestRole.hexColor)
-                .setFooter(member.permissions)
+                .setFooter(`User ID: ${msgObject.author.id}`)
                 .setThumbnail(msgObject.author.avatarURL)
                 .setTitle(`**${userAuthor.username}#${userAuthor.discriminator}**`)
-                .addField('**User ID: **', msgObject.author.id)
                 .addField("**Join position:**", position)
                 .addField("**Join date: **", moment.utc(member.joinedAt).format('dddd, MMMM Do YYYY, HH:mm:ss'))
                 .addField("**Created at: **", `${moment.utc(userAuthor.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss')}`, true)
-                .addField("\n**Roles: **", member.roles.map(s => s).join("  ,  ") || "No Roles", true)
+                .addField("**Roles: **", member.roles.map(s => s).slice(1).join("  ,  ") || "No Roles", true)
+                .addField("**Permissions:**", member.permissions)
                 .setTimestamp()
 
             msgObject.channel.send(embed)
@@ -48,16 +54,17 @@ export default class userinfo implements IBotCommand {
                 return a.joinedTimestamp - b.joinedTimestamp
             })
             let position = sortedMembers.indexOf(member) + 1;
+
             let embed = new Discord.RichEmbed()
                 .setColor(member.highestRole.hexColor)
-                .setFooter("Key permissions: ")
+                .setFooter(`User ID: ${userInfo.id}`)
                 .setImage(userInfo.avatarURL)
                 .setTitle(`**${userInfo.username}#${userInfo.discriminator}**`)
-                .addField('**User ID: **', userInfo.id)
                 .addField("**Join position:**", position)
                 .addField("**Join date: **", moment.utc(member.joinedAt).format('dddd, MMMM Do YYYY, HH:mm:ss'))
                 .addField("**Created at: **", `${moment.utc(userInfo.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss')}`, true)
-                .addField("**Roles: **", member.roles.map(s => s).join("  ,  ") || "No Roles", true)
+                .addField("**Roles: **", member.roles.map(s => s).slice(2).join("  ,  ") || "No Roles", true)
+                .addField("Key permissions: ", member.permissionsIn(msgObject.channel.id))
                 .setTimestamp()
 
             msgObject.channel.send(embed)
