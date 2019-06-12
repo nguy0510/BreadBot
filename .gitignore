@@ -5,3 +5,7 @@ src/config.ts
 src/commands/default.ts
 pics/defaultcloutmonkey.png
 types/weather-js.d.ts
+src/lily.ts
+src/default.ts
+src/commands/_default.ts
+src/commands/lily.ts
